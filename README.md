@@ -1,21 +1,66 @@
-#API REST CON MONGO
+# 🚀 API REST con MongoDB
 
-##Dependencias instaladas
+---
+## ⚠️ Información importante
 
-##INSTRUCCIONES:
+Los servicios se gestionan con una base de datos Mongo no realcional.
+Los productos se gestionan con una base de datos SQL relacional.
+---
 
-instalar dependencias
-´´´
+
+## 📥 Instalación del proyecto
+
+### 1. Clonar el repositorio
+git clone https://github.com/Lemnosos/desmontar_fichero_app.js.git
+
+### 2. Entrar en el proyecto
+cd desmontar_fichero_app.js
+
+---
+### 3. Instalar dependencias
 npm install
-´´´
 
+## 📦 Dependencias utilizadas
 
-##Renombre el archivo .env.template a .env e inicializalas con los valores adecuados
+- cors → Limita el acceso a la API por seguridad.
+- dotenv → Gestión de variables de entorno.
+- ejs → Generación de HTML por partes.
+- express → Framework para crear el servidor.
+- express-validator → Middleware de validación de datos.
+- jsonwebtoken → Autenticación con tokens JWT.
+- mongoose → Conexión y gestión de MongoDB.
+- pg → Conexión y gestión de PostgreSQL.
 
-DB_URI=cadena de conexión a la bbadd de mongo
-PORT=puerto
+---
 
+## 🗄️ Inicializar datos base
 
-##Cómo arrancar el servidor
+npm run sql
 
-##URL del repositorio para poder hacer el clone
+---
+
+## 🔐 Variables de entorno
+
+Renombra:
+.env.template → .env
+
+Configura:
+DB_URI=cadena_de_conexion_a_mongodb
+PORT=puerto_del_servidor
+
+---
+
+## ▶️ Ejecutar el servidor
+
+Modo desarrollo:
+npm run dev
+
+Modo producción:
+npm start
+
+---
+
+## 🌐 Repositorio
+
+https://github.com/Lemnosos/desmontar_fichero_app.js.git
+
