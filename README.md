@@ -3,7 +3,7 @@
 ---
 ## ⚠️ Información importante
 
-Los servicios se gestionan con una base de datos Mongo no realcional.
+Los servicios se gestionan con una base de datos Mongo no realcional.  
 Los productos se gestionan con una base de datos SQL relacional.
 ---
 
@@ -45,8 +45,15 @@ Renombra:
 .env.template → .env
 
 Configura:
-DB_URI=cadena_de_conexion_a_mongodb
-PORT=puerto_del_servidor
+PORT=puerto a usar en el entorno de trabajo
+USER_MONGO=usuario de la BBDD de mongo
+PASS_MONGO=contraseña de la BBDD de mongo
+DB_URI=url de la BBDD de mongo
+
+SQL_USER=usuario de la BBDD SQL
+SQL_HOST=host de la BBDD SQL
+SQL_DATABASE=nombre de la BBDD SQL
+SQL_PASS=contraseña de la BBDD SQL
 
 ---
 
