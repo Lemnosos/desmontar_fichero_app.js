@@ -9,12 +9,9 @@ const dbConect = async () => {
     } catch (error) {
         console.log(error)
 
-        throw 'Error al conectar con la base de datos'
-
+        throw `Error al conectar con la base de datos`
     }
 
 }
-
-
 
 module.exports = dbConect

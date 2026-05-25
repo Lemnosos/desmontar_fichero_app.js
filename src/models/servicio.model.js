@@ -1,13 +1,11 @@
 const { Schema, model } = require("mongoose");
 const { type } = require("node:os");
 
-
 const servicioSchema = new Schema({
 
     titulo: {
         type: String,
         required: true,
-
     },
     descripcion: {
         type: String,
@@ -23,7 +21,5 @@ const servicioSchema = new Schema({
     }
 
 })
-
-
 
 module.exports = model('Servicios', servicioSchema)

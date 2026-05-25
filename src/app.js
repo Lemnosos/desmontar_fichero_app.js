@@ -1,26 +1,23 @@
 const express = require('express')
-require('dotenv').config()
-
+const cors = require('cors')
 const dbConect = require('./utils/mongoConect')
+const app = express()
+require('dotenv').config()
 
 const port = process.env.PORT || 3000
 
-const app = express()
-
-
-// parse application/x-www-form-urlencoded
+// parse de formularios
 app.use(express.urlencoded())
 
-// parse application/json
+// parse de json
 app.use(express.json())
 
 
-dbConect().catch((error) => { console.log(error) })
+dbConect().catch(error => console.log(error))
 
 
 app.use('/api/v1/servicios', require('./routes/servicios.router'))
 app.use('/api/v1/productos', require('./routes/productos.router'))
-
 
 
 app.listen(port, () => {

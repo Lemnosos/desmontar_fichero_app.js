@@ -1,0 +1,17 @@
+--generar los campos de prueba para hacer los ejercicios
+
+DROP TABLE IF EXISTS producto;
+
+CREATE TABLE productos (
+    id_producto SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(250) NOT NULL
+);
+
+INSERT INTO productos
+VALUES
+    (1,'GORRA','DESCRIPCION DE UNA GORRA'),
+    (2,'CAMISETA','DESCRIPCION DE UNA CAMISETA'),
+    (3,'SUDADERA','DESCRIPCION DE UNA SUDADERA'),
+    (4,'PANTALON','DESCRIPCION DE UNOS PANTALONES'),
+    (5,'CALCETINES','DESCIPCION DE UNOS CALCETINES');

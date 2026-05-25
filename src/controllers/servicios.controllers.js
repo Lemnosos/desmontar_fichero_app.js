@@ -43,7 +43,6 @@ const traerUnServicioPorId = async (req, res) => {
 
         const servicios = await Servicios.findById({ _id: id })
         console.log(servicios)
-        // TODO: comprobar si hay respuesta  // TODO: si no existe 404  { ok: false, msg: 'no se encontro'}
 
         if (!servicios) {
             res.status(404).json(
@@ -120,7 +119,18 @@ const actualizarUnServicioPorId = async (req, res) => {
 
         const body = req.body
 
-        let servicios = await Servicios.findByIdAndUpdate({ _id: id }, body)
+        const servicios = await Servicios.findById({ _id: id })
+        if (!servicios) {
+            res.status(404).json(
+                {
+                    ok: false,
+                    msg: 'No existe servicio con ese id para actualizar',
+                }
+            )
+            return
+        }
+
+        servicios = await Servicios.findByIdAndUpdate({ _id: id }, body, { new: true })
 
         if (!servicios)
             return res.status(404).json(
@@ -130,7 +140,7 @@ const actualizarUnServicioPorId = async (req, res) => {
                 }
             )
 
-        return res.status(201).json(
+        return res.status(200).json(
             {
                 ok: true,
                 msg: 'Servicio actualizado',
@@ -170,7 +180,7 @@ const eliminarUnServicioPorId = async (req, res) => {
                 }
             )
 
-        return res.status(201).json(
+        return res.status(200).json(
             {
                 ok: true,
                 msg: 'Servicio eliminado',

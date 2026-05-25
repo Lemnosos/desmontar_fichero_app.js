@@ -17,8 +17,6 @@ router.post('/crear', [
     check('descripcion', 'La descripcion es obligatori').not().isEmpty(),
     check('categoria', 'La catagotia es obligatori').not().isEmpty(),
     validateInputs
-
-
 ], crearUnServicios)
 
 router.put('/actualizar/:id', [
@@ -26,11 +24,8 @@ router.put('/actualizar/:id', [
     check('descripcion', 'La descripcion es obligatori').not().isEmpty(),
     check('categoria', 'La catagotia es obligatori').not().isEmpty(),
     validateInputs
-
 ], actualizarUnServicioPorId)
 
-router.delete('/eliminar/:id', eliminarUnServicioPorId)
-
-
+router.delete('/eliminar/:id', [], eliminarUnServicioPorId)
 
 module.exports = router

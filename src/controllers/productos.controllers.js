@@ -1,202 +1,184 @@
-const Productos = require('../models/producto.model')
+const producto = require('../models/producto.model');
 
-//GET ALL PRODUCTS
+
+// =======================
+// OBTENER TODOS LOS PRODUCTOS
+// =======================
 const traerTodosLosProductos = async (req, res) => {
     try {
-        const productos = await Productos.find()
-        console.log(productos)
+        const productos = await producto.getAllEntries();
 
-        if (!productos) {
-            res.status(404).json(
-                {
-                    ok: false,
-                    msg: 'No existen productos actualmente',
-                }
-            )
-            return
+        // Si no hay productos en la base de datos
+        if (!productos || productos.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existen productos actualmente'
+            });
         }
 
-        res.status(200).json(
-            {
-                ok: true,
-                msg: 'obteniendo un producto',
-                productos
-            }
-        )
+        // Respuesta correcta
+        return res.status(200).json({
+            ok: true,
+            msg: 'Productos obtenidos correctamente',
+            data: productos
+        });
+
     } catch (error) {
-        console.log(error)
-        res.status(500).json(
-            {
-                ok: false,
-                msg: 'Error obteniendo todos los productos'
-            }
-        )
+        console.log(error);
 
+        // Error interno del servidor
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error obteniendo todos los productos'
+        });
     }
-}
+};
 
 
-//GET A PRODUCT  BY ID
+// =======================
+// OBTENER UN PRODUCTO POR ID
+// =======================
 const traerUnProductoPorId = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
 
-        const productos = await Productos.findById({ _id: id })
-        console.log(productos)
+        const productoEncontrado = await producto.getOneEntryByID(id);
 
-        if (!productos) {
-            res.status(404).json(
-                {
-                    ok: false,
-                    msg: 'No existe producto con ese id',
-                }
-            )
-            return
+        // Si no existe el producto
+        if (!productoEncontrado) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe producto con ese id'
+            });
         }
 
-        res.status(200).json(
-            {
-                ok: true,
-                msg: 'obteniendo un producto',
-                productos
-            }
-        )
+        // Respuesta correcta
+        return res.status(200).json({
+            ok: true,
+            msg: 'Producto obtenido correctamente',
+            data: productoEncontrado
+        });
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json(
-            {
-                ok: false,
-                msg: 'Error obteniendo un producto'
-            }
-        )
+        console.log(error);
 
+        // Error interno del servidor
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error obteniendo un producto'
+        });
     }
+};
 
-}
 
-
-//CREATE A PRODUCT
-const crearUnProductos = async (req, res) => {
-
+// =======================
+// CREAR UN PRODUCTO
+// =======================
+const crearUnProducto = async (req, res) => {
     try {
+        const body = req.body;
 
-        const body = req.body
+        const productoCreado = await producto.createEntry(body);
 
-        const productoInstanciado = new Productos(body)
-
-        const resp = await productoInstanciado.save()
-
-        return res.status(201).json(
-            {
-                ok: true,
-                msg: 'Producto creado',
-                resp
-            }
-        )
+        // Producto creado correctamente
+        return res.status(201).json({
+            ok: true,
+            msg: 'Producto creado correctamente',
+            data: productoCreado
+        });
 
     } catch (error) {
+        console.log(error);
 
-        console.log(error)
-
-        res.status(500).json(
-            {
-                ok: false,
-                msg: 'Error al Crear un Producto'
-            }
-        )
-
+        // Error interno del servidor
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error al crear un producto'
+        });
     }
+};
 
-}
 
-
-//UPDATE A PRODUCT BY ID
+// =======================
+// ACTUALIZAR UN PRODUCTO POR ID
+// =======================
 const actualizarUnProductoPorId = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
+        const body = req.body;
 
-        const body = req.body
+        const productoActualizado = await producto.updateEntry(id, body);
 
-        let productos = await Productos.findByIdAndUpdate({ _id: id }, body)
+        // Si no existe el producto
+        if (!productoActualizado) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe producto con ese id para poder actualizarlo'
+            });
+        }
 
-        if (!productos)
-            return res.status(404).json(
-                {
-                    ok: false,
-                    msg: 'No existe producto con ese id para poder actualizarlo',
-                }
-            )
-
-        return res.status(201).json(
-            {
-                ok: true,
-                msg: 'Producto actualizado',
-                productos
-            }
-        )
+        // Actualización correcta
+        return res.status(200).json({
+            ok: true,
+            msg: 'Producto actualizado correctamente',
+            data: productoActualizado
+        });
 
     } catch (error) {
+        console.log(error);
 
-        console.log(error)
-
-        res.status(500).json(
-            {
-                ok: false,
-                msg: 'Error al actualizar el Producto'
-            }
-        )
-
+        // Error interno del servidor
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error al actualizar el producto'
+        });
     }
+};
 
 
-}
-
-
-//DELETE A PRODUCT BY ID
+// =======================
+// ELIMINAR UN PRODUCTO POR ID
+// =======================
 const eliminarUnProductoPorId = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
 
-        let productos = await Productos.findByIdAndDelete({ _id: id })
+        const productoEliminado = await producto.deleteEntry(id);
 
-        if (!productos)
-            return res.status(404).json(
-                {
-                    ok: false,
-                    msg: 'No existe producto con ese id para poder eliminar',
-                }
-            )
+        // Si no existe el producto
+        if (!productoEliminado) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe producto con ese id para poder eliminar'
+            });
+        }
 
-        return res.status(201).json(
-            {
-                ok: true,
-                msg: 'Producto eliminado',
-                productos
-            }
-        )
+        // Eliminación correcta
+        return res.status(200).json({
+            ok: true,
+            msg: 'Producto eliminado correctamente',
+            data: productoEliminado
+        });
 
     } catch (error) {
+        console.log(error);
 
-        console.log(error)
-
-        res.status(500).json(
-            {
-                ok: false,
-                msg: 'Error al actualizar el Producto'
-            }
-        )
-
+        // Error interno del servidor
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error al eliminar el producto'
+        });
     }
-
-}
-
+};
 
 
+// =======================
+// EXPORTACIÓN DE CONTROLADORES
+// =======================
 module.exports = {
     traerTodosLosProductos,
     traerUnProductoPorId,
-    crearUnProductos,
+    crearUnProducto,
     actualizarUnProductoPorId,
     eliminarUnProductoPorId
-}
+};
