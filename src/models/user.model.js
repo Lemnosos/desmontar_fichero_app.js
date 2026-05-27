@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const queries = require('../queries')
+const queries = require('../utils/queries')
 
 
 const pool = new Pool({
@@ -25,9 +25,10 @@ const getUserByEmail = async (email) => {
 
         const data = await client.query(queries.obtenerUsuarioID, [email]);
 
-        if (data.rowCount === 0) return null;
+        if (data.rowCount === 1)
+            return data.rows[0];
 
-        return data.rows[0];
+        return null;
 
     } catch (error) {
         console.log(error);
@@ -45,7 +46,7 @@ const createUser = async (body) => {
     try {
         client = await pool.connect();
 
-        const data = await client.query(queries.crearUsuario, [body.email, body.nombre, body.contraseña]);
+        const data = await client.query(queries.crearUsuario, [body.email, body.nombre, body.password]);
 
         return data.rows[0];
 

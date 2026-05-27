@@ -14,8 +14,7 @@ borrarProducto = "DELETE FROM PRODUCTO WHERE ID = $1 RETURNING *;"
 obtenerUsuarioID = "Select * from usuarios where email = $1;"
 
 //insertar nuevo usuario
-crearUsuario = "INSERT INTO usuarios (email,nombre,contraseña) VALUES ($1, $2, $3) RETURNING *"
-
+crearUsuario = "INSERT INTO usuarios (email,nombre,password) VALUES ( $1, $2, $3) RETURNING *"
 
 
 module.exports = {

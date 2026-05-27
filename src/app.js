@@ -7,7 +7,7 @@ require('dotenv').config()
 const port = process.env.PORT || 3000
 
 // parse de formularios
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 // parse de json
 app.use(express.json())

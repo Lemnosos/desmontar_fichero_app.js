@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const queries = require('../queries')
+const queries = require('../utils/queries')
 
 
 const pool = new Pool({
@@ -10,9 +10,7 @@ const pool = new Pool({
 });
 
 
-// =======================
 // GET ALL
-// =======================
 const getAllEntries = async () => {
     let client;
 
@@ -33,9 +31,7 @@ const getAllEntries = async () => {
 };
 
 
-// =======================
 // GET BY ID
-// =======================
 const getOneEntryByID = async (id) => {
     let client;
 
@@ -58,9 +54,7 @@ const getOneEntryByID = async (id) => {
 };
 
 
-// =======================
 // CREATE
-// =======================
 const createEntry = async (body) => {
     let client;
 
@@ -81,9 +75,7 @@ const createEntry = async (body) => {
 };
 
 
-// =======================
 // UPDATE (dinámico)
-// =======================
 const updateEntry = async (id, body) => {
     let client;
 
@@ -133,9 +125,7 @@ const updateEntry = async (id, body) => {
 };
 
 
-// =======================
 // DELETE
-// =======================
 const deleteEntry = async (id) => {
     let client;
 
@@ -158,9 +148,7 @@ const deleteEntry = async (id) => {
 };
 
 
-// =======================
 // EXPORTS
-// =======================
 module.exports = {
     getAllEntries,
     getOneEntryByID,

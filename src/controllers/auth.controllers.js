@@ -3,59 +3,70 @@ const { generarToken, comprobarToken } = require('../utils/gestionarTokens')
 const Usuario = require('../models/user.model')
 
 const createUser = async (req, res) => {
+    try {
+        let data = await Usuario.getUserByEmail(req.body.email)
 
-    let data = await Usuario.getUserByEmail(req.body.email)
-    console.log("data despues de buscar usuario a crear", data)
+        if (data != null)
+            return res.status(403).json({
+                ok: false,
+                msg: 'El email ya esta asignado a otro usuario'
+            })
 
-    if (data != null)
-        return res.status(400).json({
+        req.body.password = await encriptarContraseña(req.body.password)
+
+        data = await Usuario.createUser(req.body)
+
+        console.log("usuario despues de la creacion", data)
+
+        return res.status(200).json({
+            ok: true,
+            msg: 'Creando usuario'
+        });
+    } catch (error) {
+        return res.status(500).json({
             ok: false,
-            msg: 'El email ya esta asignado a otro usuario'
+            msg: 'Fallo del servidor'
         })
+    }
 
-    req.body.contraseña = await encriptarContraseña(req.body.contraseña)
-
-    data = await Usuario.createUser(req.body)
-
-    return res.status(200).json({
-        ok: true,
-        msg: 'Creando usuario'
-    });
 }
 
 const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body
 
-    const { email, password } = req.body
+        const data = await Usuario.getUserByEmail(email)
 
-    const data = await Usuario.getUserByEmail(email)
+        if (!compararContraseña(password, data.password)) {
 
-    if (!compararContraseña(password, data.password)) {
+            return res.status(403).json({
+                ok: true,
+                msg: 'contraseña incorrecta'
+            });
 
-        return res.status(403).json({
+        }
+
+        const token = await generarToken({ id: data.id });
+
+        return res.status(200).json({
             ok: true,
-            msg: 'contraseña incorrecta'
+            msg: 'Logueando usuario',
+            token
         });
 
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error al loguear'
+        });
     }
 
-    const token = generarToken({ email: data.email });
-
-    return res.status(200).json({
-        ok: true,
-        msg: 'Logueando usuario',
-        token
-    });
 }
 
 const renewToken = (req, res) => {
 
-    const header = req.rawHeaders[1]
-
-    const token = header.split(" ")
-
-    const objeto = comprobarToken(token[1])
-
-    const nuevoToken = generarToken({ email: objeto.email })
+    const nuevoToken = generarToken(req.id)
 
     return res.status(200).json({
         ok: true,

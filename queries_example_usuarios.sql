@@ -3,9 +3,10 @@
 DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE usuarios (
-    email VARCHAR(25) PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    password VARCHAR(250) NOT NULL
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    password TEXT NOT NULL
 );
 
 INSERT INTO usuarios (email, nombre, password)
