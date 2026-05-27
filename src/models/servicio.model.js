@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { type } = require("node:os");
 
 const servicioSchema = new Schema({
 

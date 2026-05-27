@@ -34,8 +34,16 @@ npm install
 ---
 
 ## 🗄️ Inicializar datos base
+Hay una carga de datos de productos pequeña almacenada en el fichero "queries_example_productos.sql".  
+Con el siguiente comando lanzamos dicha carga de informacion
 
-npm run sql
+npm run sql_productos
+
+
+Hay una carga de datos de usuario pequeña almacenada en el fichero "queries_example_usuarios.sql".  
+Con el siguiente comando lanzamos dicha carga de informacion
+
+npm run sql_usuarios
 
 ---
 

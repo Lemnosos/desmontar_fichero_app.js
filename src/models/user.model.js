@@ -1,0 +1,65 @@
+const { Pool } = require('pg');
+const queries = require('../queries')
+
+
+const pool = new Pool({
+    user: process.env.SQL_USER,
+    host: process.env.SQL_HOST,
+    database: process.env.USUARIOS,
+    password: process.env.SQL_PASS
+});
+
+/*
+nombre: tipo string y obligatorio
+email: tipo string, obligatório y único,
+password: tipo string y obligatório
+*/
+
+//getUserByEmail
+const getUserByEmail = async (email) => {
+
+    let client;
+
+    try {
+        client = await pool.connect();
+
+        const data = await client.query(queries.obtenerUsuarioID, [email]);
+
+        if (data.rowCount === 0) return null;
+
+        return data.rows[0];
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+
+    } finally {
+        if (client) client.release();
+    }
+}
+
+
+const createUser = async (body) => {
+    let client;
+
+    try {
+        client = await pool.connect();
+
+        const data = await client.query(queries.crearUsuario, [body.email, body.nombre, body.contraseña]);
+
+        return data.rows[0];
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+
+    } finally {
+        if (client) client.release();
+    }
+};
+
+// EXPORTS
+module.exports = {
+    getUserByEmail,
+    createUser
+};

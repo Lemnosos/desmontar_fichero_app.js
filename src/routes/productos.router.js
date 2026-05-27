@@ -14,15 +14,11 @@ const validateInputs = require('../middlewares/validateImputs');
 const router = express.Router();
 
 
-// =======================
 // GET ALL
-// =======================
 router.get('/', traerTodosLosProductos);
 
 
-// =======================
 // GET BY ID
-// =======================
 router.get(
     '/:id',
     [
@@ -35,9 +31,7 @@ router.get(
 );
 
 
-// =======================
 // CREATE PRODUCT
-// =======================
 router.post(
     '/crear',
     [
@@ -61,9 +55,7 @@ router.post(
 );
 
 
-// =======================
 // UPDATE PRODUCT
-// =======================
 router.put(
     '/actualizar/:id',
     [
@@ -91,9 +83,7 @@ router.put(
 );
 
 
-// =======================
 // DELETE PRODUCT
-// =======================
 router.delete(
     '/eliminar/:id',
     [
@@ -105,5 +95,6 @@ router.delete(
     ],
     eliminarUnProductoPorId
 );
+
 
 module.exports = router;

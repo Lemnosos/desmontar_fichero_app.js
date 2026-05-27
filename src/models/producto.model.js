@@ -1,9 +1,11 @@
 const { Pool } = require('pg');
+const queries = require('../queries')
+
 
 const pool = new Pool({
     user: process.env.SQL_USER,
     host: process.env.SQL_HOST,
-    database: process.env.SQL_DATABASE,
+    database: process.env.PRODUCTOS,
     password: process.env.SQL_PASS
 });
 
@@ -17,7 +19,7 @@ const getAllEntries = async () => {
     try {
         client = await pool.connect();
 
-        const data = await client.query("SELECT * FROM productos ORDER BY id_producto ASC");
+        const data = await client.query(queries.obtenerTodosProductos);
 
         return data.rows;
 
@@ -40,10 +42,7 @@ const getOneEntryByID = async (id) => {
     try {
         client = await pool.connect();
 
-        const data = await client.query(
-            "SELECT * FROM productos WHERE id_producto = $1",
-            [id]
-        );
+        const data = await client.query(queries.obtenerProductoPorId, [id]);
 
         if (data.rowCount === 0) return null;
 
@@ -68,15 +67,7 @@ const createEntry = async (body) => {
     try {
         client = await pool.connect();
 
-        const data = await client.query(
-            `INSERT INTO productos (id_producto, nombre, descripcion, precio)
-             VALUES (
-                (SELECT COALESCE(MAX(id_producto), 0) + 1 FROM productos),
-                $1, $2, $3
-             )
-             RETURNING *`,
-            [body.nombre, body.descripcion, body.precio]
-        );
+        const data = await client.query(queries.crearProducto, [body.nombre, body.descripcion, body.precio]);
 
         return data.rows[0];
 
@@ -100,10 +91,7 @@ const updateEntry = async (id, body) => {
         client = await pool.connect();
 
         // comprobar existencia
-        const exists = await client.query(
-            "SELECT 1 FROM productos WHERE id_producto = $1",
-            [id]
-        );
+        const exists = await client.query(queries.obtenerProductoPorId, [id]);
 
         if (exists.rowCount === 0) return null;
 
@@ -154,10 +142,7 @@ const deleteEntry = async (id) => {
     try {
         client = await pool.connect();
 
-        const data = await client.query(
-            "DELETE FROM productos WHERE id_producto = $1 RETURNING *",
-            [id]
-        );
+        const data = await client.query(queries.borrarProducto, [id]);
 
         if (data.rowCount === 0) return null;
 

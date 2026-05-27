@@ -1,6 +1,6 @@
 --generar los campos de prueba para hacer los ejercicios
 
-DROP TABLE IF EXISTS producto;
+DROP TABLE IF EXISTS productos;
 
 CREATE TABLE productos (
     id_producto SERIAL PRIMARY KEY,

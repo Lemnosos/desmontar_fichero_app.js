@@ -1,9 +1,7 @@
 const producto = require('../models/producto.model');
 
 
-// =======================
 // OBTENER TODOS LOS PRODUCTOS
-// =======================
 const traerTodosLosProductos = async (req, res) => {
     try {
         const productos = await producto.getAllEntries();
@@ -35,9 +33,7 @@ const traerTodosLosProductos = async (req, res) => {
 };
 
 
-// =======================
 // OBTENER UN PRODUCTO POR ID
-// =======================
 const traerUnProductoPorId = async (req, res) => {
     try {
         const { id } = req.params;
@@ -71,9 +67,7 @@ const traerUnProductoPorId = async (req, res) => {
 };
 
 
-// =======================
 // CREAR UN PRODUCTO
-// =======================
 const crearUnProducto = async (req, res) => {
     try {
         const body = req.body;
@@ -99,9 +93,7 @@ const crearUnProducto = async (req, res) => {
 };
 
 
-// =======================
 // ACTUALIZAR UN PRODUCTO POR ID
-// =======================
 const actualizarUnProductoPorId = async (req, res) => {
     try {
         const { id } = req.params;
@@ -136,9 +128,7 @@ const actualizarUnProductoPorId = async (req, res) => {
 };
 
 
-// =======================
 // ELIMINAR UN PRODUCTO POR ID
-// =======================
 const eliminarUnProductoPorId = async (req, res) => {
     try {
         const { id } = req.params;
@@ -172,9 +162,7 @@ const eliminarUnProductoPorId = async (req, res) => {
 };
 
 
-// =======================
 // EXPORTACIÓN DE CONTROLADORES
-// =======================
 module.exports = {
     traerTodosLosProductos,
     traerUnProductoPorId,

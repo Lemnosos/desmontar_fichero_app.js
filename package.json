@@ -7,13 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app",
     "dev": "nodemon src/app",
-    "sql": "docker exec -i some-postgres psql -U postgres -d productos<queries_example.sql"
+    "sql_productos": "docker exec -i some-postgres psql -U postgres -d productos<queries_example_productos.sql",
+    "sql_usuarios": "docker exec -i some-postgres psql -U postgres -d usuarios<queries_example_usuarios.sql"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^16.0.3",
     "ejs": "^5.0.2",

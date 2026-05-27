@@ -15,9 +15,10 @@ app.use(express.json())
 
 dbConect().catch(error => console.log(error))
 
-
+//generacion de endpoints
 app.use('/api/v1/servicios', require('./routes/servicios.router'))
 app.use('/api/v1/productos', require('./routes/productos.router'))
+app.use('/api/v1/auth', require('./routes/auth.routes'))
 
 
 app.listen(port, () => {
