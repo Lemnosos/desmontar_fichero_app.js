@@ -5,8 +5,9 @@ const queries = require('../utils/queries')
 const pool = new Pool({
     user: process.env.SQL_USER,
     host: process.env.SQL_HOST,
-    database: process.env.USUARIOS,
-    password: process.env.SQL_PASS
+    database: process.env.SQL_DB,
+    password: process.env.SQL_PASS,
+    port: process.env.PORT
 });
 
 /*
