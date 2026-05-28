@@ -4,6 +4,7 @@ const Usuario = require('../models/user.model')
 
 const createUser = async (req, res) => {
     try {
+
         let data = await Usuario.getUserByEmail(req.body.email)
 
         if (data != null)
@@ -18,10 +19,14 @@ const createUser = async (req, res) => {
 
         console.log("usuario despues de la creacion", data)
 
+        const token = await generarToken({ id: data.id })
+
         return res.status(200).json({
             ok: true,
-            msg: 'Creando usuario'
+            msg: 'Creando usuario',
+            token
         });
+
     } catch (error) {
         return res.status(500).json({
             ok: false,
@@ -64,9 +69,9 @@ const loginUser = async (req, res) => {
 
 }
 
-const renewToken = (req, res) => {
+const renewToken = async (req, res) => {
 
-    const nuevoToken = generarToken(req.id)
+    const nuevoToken = await generarToken({ id: req.id })
 
     return res.status(200).json({
         ok: true,

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 //Generar token
-function generarToken(payload) {
+const generarToken = (payload) => {
     return new Promise((resolve, reject) => {
         jwt.sign(
             payload,
@@ -12,7 +12,7 @@ function generarToken(payload) {
             (error, token) => {
                 if (error) {
                     console.log(error)
-                    reject(`Error al generar el token; \n ${error}`)
+                    return reject(`Error al generar el token:\n${error}`)
                 }
                 resolve(token)
             }
@@ -21,7 +21,7 @@ function generarToken(payload) {
 }
 
 //Comprobar token
-function comprobarToken(token) {
+const comprobarToken = (token) => {
     try {
         return jwt.verify(token, SECRET_KEY);
     } catch (error) {
